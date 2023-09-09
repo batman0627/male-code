@@ -44,6 +44,19 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!--spring aop-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!--处理@Indexed注解主要是为了避免包扫描-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-indexer</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 

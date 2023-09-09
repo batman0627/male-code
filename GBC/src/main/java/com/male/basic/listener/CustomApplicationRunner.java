@@ -1,5 +1,6 @@
 package com.male.basic.listener;
 
+import com.male.basic.annotation.TakeTime;
 import com.male.basic.config.AppProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -7,6 +8,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
+
 
 /**
  * <p>
@@ -25,9 +27,9 @@ public class CustomApplicationRunner implements ApplicationRunner {
 	}
 
 
+	@TakeTime(caption = "项目信息打印耗时")
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		TimeUnit.SECONDS.sleep(1);
 		log.info("\r\n\r\n==========================================\n"
 						+ "项目名称：{}\n"
 						+ "项目描述：{}\n"

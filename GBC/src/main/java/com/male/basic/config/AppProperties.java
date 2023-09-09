@@ -19,7 +19,7 @@ public class AppProperties {
 	/**
 	 * 作者
 	 */
-	private String author = "Ming Fang Xu";
+	private String author = "MingFangXu";
 	/**
 	 * 联系邮箱
 	 */
