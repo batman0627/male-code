@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: GBC
+app:
+  app-name: ${spring.application.name}
+  # 使用${变量名}引用pom文件中变量
+  description: @project.description@
+  # 使用@@引用pom.xml文件中定义的变量
+  version: @project.version@
+  # 使用${变量名}引用pom文件中变量
+  build-time: @timestamp@
+
