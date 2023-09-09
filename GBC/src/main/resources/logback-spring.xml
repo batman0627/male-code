@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--日志格式应用spring boot默认的格式，也可以自己更改-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProperty scope="context" name="log.app-name" source="app.logback.app-name"/>
+    <springProperty scope="context" name="log.is-prod-env" source="app.logback.is-prod-env"/>
+    <springProperty scope="context" name="log.app-version" source="app.logback.app-version"/>
+    <if condition='isNull("log.app-name")'>
+        <then>
+            <springProperty scope="context" name="log.app-name" source="spring.application.name"/>
+        </then>
+    </if>
+    <if condition='isNull("log.app-version")'>
+        <then>
+            <springProperty scope="context" name="log.app-version" source="app.version"/>
+        </then>
+    </if>
+    <if condition='p("log.is-prod-env").equals("true")'>
+        <then>
+            <springProperty scope="context" name="log.file-path" source="app.logback.prod.file-path"/>
+            <springProperty scope="context" name="log.file-name" source="app.logback.prod.file-name"/>
+            <if condition='isNull("log.file-name")'>
+                <then>
+                    <springProperty scope="context" name="log.file-name" source="${log.app-name}"/>
+                </then>
+            </if>
+            <springProperty scope="context" name="log.watch-path" source="app.logback.prod.ext.watch-path"/>
+            <springProperty scope="context" name="log.log-level" source="app.logback.prod.ext.log-level"/>
+        </then>
+        <else>
+            <springProperty scope="context" name="log.file-path" source="app.logback.test.file-path"/>
+            <springProperty scope="context" name="log.file-name" source="app.logback.prod.file-name"/>
+            <if condition='isNull("log.file-name")'>
+                <then>
+                    <springProperty scope="context" name="log.file-name" source="${log.app-name}"/>
+                </then>
+            </if>
+            <springProperty scope="context" name="log.watch-path" source="app.logback.test.ext.watch-path"/>
+            <springProperty scope="context" name="log.log-level" source="app.logback.test.ext.log-level"/>
+        </else>
+    </if>
+
+    <property name="CHARSET" value="UTF-8"/>
+    <property name="MAX_FILE_SIZE" value="500MB"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [${log.app-name}-${log.app-version}] traceId[%X{X-B3-TraceId}] spanId[%X{X-B3-SpanId}] parentSpanId[%X{X-B3-ParentSpanId}] ==> [%thread] %-5level %logger{36}: %msg%n"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="eventFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- daily rollover 保存历史记录到这个文件夹一日起为后缀 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${log.file-path}/${log.app-name}/%d{yyyy-MM-dd}/${log.file-name}.%i.log</FileNamePattern>
+            <!-- keep 365 days' worth of history -->
+            <maxHistory>365</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            <charset>${CHARSET}</charset> <!-- 此处设置字符集 -->
+        </encoder>
+    </appender>
+    <logger name="${log.watch-path}" level="${log.log-level}"/>
+    <logger name="org.springframework" level="WARN"/>
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="eventFile"/>
+    </root>
+
+
+</configuration>
+
+

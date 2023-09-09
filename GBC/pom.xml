@@ -57,6 +57,13 @@
             <optional>true</optional>
         </dependency>
 
+        <!--logback.xml逻辑判断依赖-->
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>3.1.9</version>
+        </dependency>
+
     </dependencies>
 
 

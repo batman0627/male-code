@@ -9,4 +9,21 @@ app:
   version: @project.version@
   # 使用${变量名}引用pom文件中变量
   build-time: @timestamp@
-
+  # stop-watch-log
+  stop-watch-log-enabled: true
+  logback:
+    #    app-name: logback-ds
+    #    app-version: 3.0
+    is-prod-env: true
+    prod:
+      file-path: ../data/logs/prod
+      file-name: ${spring.application.name}prod
+      ext:
+        watch-path: com.male
+        log-level: info
+    test:
+      file-path: ../data/logs/test
+      file-name: ${spring.application.name}test
+      ext:
+        watch-path: com.male
+        log-level: debug
