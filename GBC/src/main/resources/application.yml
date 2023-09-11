@@ -14,7 +14,7 @@ app:
   logback:
     #    app-name: logback-ds
     #    app-version: 3.0
-    is-prod-env: true
+    is-prod-env: false
     prod:
       file-path: ../data/logs/prod
       file-name: ${spring.application.name}prod

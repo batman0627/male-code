@@ -1,13 +1,14 @@
 package com.male.basic.listener;
 
+import com.male.basic.log.Logger;
 import com.male.basic.annotation.TakeTime;
 import com.male.basic.config.AppProperties;
+import com.male.basic.log.support.Color;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -49,5 +50,6 @@ public class CustomApplicationRunner implements ApplicationRunner {
 				appProperties.getPhone(),
 				appProperties.getEmail()
 		);
+		Logger.info("测试", Color.FR_RED);
 	}
 }
